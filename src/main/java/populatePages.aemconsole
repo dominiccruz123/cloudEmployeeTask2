@@ -1,0 +1,114 @@
+import javax.jcr.Node
+import javax.jcr.Session
+
+def createFistLanguagePage(Session session, String parentPath) {
+    try {
+        if (session) {
+            def parentNode = session.getNode(parentPath)
+            def pageNode = parentNode.addNode("de_DE", "cq:Page")
+
+            // Create the jcr:content node under the page node
+            def contentNode = pageNode.addNode("jcr:content", "cq:PageContent")
+            def contentParsysNode = contentNode.addNode("content_parsys", "nt:unstructured")
+            def upNode = contentParsysNode.addNode("up", "nt:unstructured")
+            upNode.setProperty("sling:resourceType", "my-project/components/up")
+            def inner = contentParsysNode.addNode("inner", "nt:unstructured")
+            inner.setProperty("sling:resourceType", "my-project/components/inner")
+            def text = contentParsysNode.addNode("text", "nt:unstructured")
+            text.setProperty("sling:resourceType", "my-project/components/text")
+            def nav = contentParsysNode.addNode("nav", "nt:unstructured")
+            nav.setProperty("sling:resourceType", "my-project/components/nav")
+
+
+            def secondPageCategory = pageNode.addNode("category", "cq:Page")
+            def secondPageContentNode = secondPageCategory.addNode("jcr:content", "cq:PageContent")
+            def secondPageContentParsysNode = secondPageContentNode.addNode("content_parsys", "nt:unstructured")
+            def secondPageInner = secondPageContentParsysNode.addNode("inner", "nt:unstructured")
+            secondPageInner.setProperty("sling:resourceType", "my-project/components/inner")
+            def secondPageText = secondPageContentParsysNode.addNode("text", "nt:unstructured")
+            secondPageText.setProperty("sling:resourceType", "my-project/components/text")
+            def secondPageCategoryFistPage = secondPageCategory.addNode("page-name", "cq:Page")
+            def secondPageCategoryFistPagContentNode = secondPageCategoryFistPage.addNode("jcr:content", "cq:PageContent")
+            def footerParsys = secondPageCategoryFistPagContentNode.addNode("footer_parsys", "nt:unstructured")
+            def footerParsysInner = footerParsys.addNode("inner", "nt:unstructured")
+            footerParsysInner.setProperty("sling:resourceType", "my-project/components/inner")
+
+            session.save()
+
+            println("Page created successfully at: ${pageNode.path}")
+        } else {
+            println("Session is null. Unable to create page.")
+        }
+    } catch (Exception e) {
+        println("Error creating page: ${e.message}")
+    }
+}
+createFistLanguagePage(session, "/content/wknd")
+
+def createSecondLanguagePage(Session session, String parentPath) {
+    try {
+        if (session) {
+            def parentNode = session.getNode(parentPath)
+
+            def pageNode = parentNode.addNode("en_GB", "cq:Page")
+
+            def contentNode = pageNode.addNode("jcr:content", "cq:PageContent")
+            def contentParsysNode = contentNode.addNode("content_parsys", "nt:unstructured")
+            def upNode = contentParsysNode.addNode("up", "nt:unstructured")
+            upNode.setProperty("sling:resourceType", "my-project/components/up")
+            def inner = contentParsysNode.addNode("inner", "nt:unstructured")
+            inner.setProperty("sling:resourceType", "my-project/components/inner")
+            def text = contentParsysNode.addNode("text", "nt:unstructured")
+            text.setProperty("sling:resourceType", "my-project/components/text")
+
+            def homeNode = pageNode.addNode("home", "cq:Page")
+            def homeContentNode = homeNode.addNode("jcr:content", "cq:PageContent")
+            def homeParsysNode = homeContentNode.addNode("some_parsys", "nt:unstructured")
+            def homeUpNode = homeParsysNode.addNode("up", "nt:unstructured")
+            homeUpNode.setProperty("sling:resourceType", "my-project/components/up")
+            def homeInner = homeParsysNode.addNode("inner", "nt:unstructured")
+            homeInner.setProperty("sling:resourceType", "my-project/components/inner")
+            def homeText = homeParsysNode.addNode("text", "nt:unstructured")
+            homeText.setProperty("sling:resourceType", "my-project/components/text")
+
+            def subNode = pageNode.addNode("sub", "cq:Page")
+            subNode.addNode("jcr:content", "cq:PageContent")
+
+            session.save()
+
+            println("Page created successfully at: ${pageNode.path}")
+        } else {
+            println("Session is null. Unable to create page.")
+        }
+    } catch (Exception e) {
+        println("Error creating page: ${e.message}")
+    }
+}
+createSecondLanguagePage(session, "/content/wknd")
+
+
+def createThirdLanguagePage(Session session, String parentPath) {
+    try {
+        if (session) {
+            def parentNode = session.getNode(parentPath)
+
+            def pageNode = parentNode.addNode("fr_FR", "cq:Page")
+
+            def contentNode = pageNode.addNode("jcr:content", "cq:PageContent")
+            def someParsysNode = contentNode.addNode("some_parsys", "nt:unstructured")
+            def inner = someParsysNode.addNode("inner", "nt:unstructured")
+            inner.setProperty("sling:resourceType", "my-project/components/inner")
+            def text = someParsysNode.addNode("text", "nt:unstructured")
+            text.setProperty("sling:resourceType", "my-project/components/text")
+
+            session.save()
+
+            println("Page created successfully at: ${pageNode.path}")
+        } else {
+            println("Session is null. Unable to create page.")
+        }
+    } catch (Exception e) {
+        println("Error creating page: ${e.message}")
+    }
+}
+createThirdLanguagePage(session, "/content/wknd")

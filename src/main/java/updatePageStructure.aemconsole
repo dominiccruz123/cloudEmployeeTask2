@@ -1,0 +1,29 @@
+import javax.jcr.Node
+import javax.jcr.Session
+
+def wrapComponentsWithWrapper(Session session, Node parentNode) {
+    try {
+        NodeIterator nodes = parentNode.getNodes()
+
+        while (nodes.hasNext()) {
+            Node node = nodes.nextNode()
+
+            if (node.hasProperty("sling:resourceType")) {
+                String resourceType = node.getProperty("sling:resourceType").getString()
+
+                if (resourceType == "my-project/components/inner") {
+                    Node wrapperNode = parentNode.addNode("inner-wrapper", "nt:unstructured")
+                    wrapperNode.setProperty("sling:resourceType", "my-project/components/wrapper")
+                    node.getSession().move(node.getPath(), wrapperNode.getPath() + "/inner")
+                }
+            }
+
+            wrapComponentsWithWrapper(session, node)
+        }
+
+        session.save()
+    } catch (Exception e) {
+        println("Error wrapping components: ${e.message}")
+    }
+}
+wrapComponentsWithWrapper(session, session.getNode("/content/wknd"))
